@@ -8,6 +8,15 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 import os
 os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
 os.environ['MUJOCO_GL'] = 'egl'
+def set_egl_id():
+    # NOTE: CUDA_VISIBLE_DEVICES is set a little late by the node. Thus, putting
+    # export EGL_DEVICE_ID=$CUDA_VISIBLE_DEVICES does NOT work. Thus I do it here manually.
+    import os
+    if os.environ.get('CUDA_VISIBLE_DEVICES', False) and 'EGL_DEVICE_ID' not in os.environ:
+        cvd = os.environ['CUDA_VISIBLE_DEVICES']
+        if ',' in cvd:
+            cvd = cvd.split(',')[0]
+        os.environ['EGL_DEVICE_ID'] = cvd
 
 from pathlib import Path
 
@@ -22,7 +31,7 @@ from logger import Logger
 from replay_buffer import ReplayBufferStorage, make_replay_loader
 from video import TrainVideoRecorder, VideoRecorder
 
-torch.backends.cudnn.benchmark = True
+# torch.backends.cudnn.benchmark = True
 
 
 def make_agent(obs_spec, action_spec, cfg):

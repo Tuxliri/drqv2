@@ -96,3 +96,15 @@ tensorboard --logdir exp_local
 
 ## License
 The majority of DrQ-v2 is licensed under the MIT license, however portions of the project are available under separate license terms: DeepMind is licensed under the Apache 2.0 license.
+
+## How to run the code over ssh
+Once you have activated the conda environment you can execute in the bash terminal [source](https://github.com/deepmind/dm_control/issues/123#issuecomment-570886412):
+
+```bash
+export MUJOCO_GL=osmesa
+export MJLIB_PATH=$HOME/.mujoco/mujoco200/bin/libmujoco200.so
+export MJKEY_PATH=$HOME/.mujoco/mujoco200/mjkey.txt
+export LD_LIBRARY_PATH=$HOME/.mujoco/mujoco200/bin:$LD_LIBRARY_PATH
+export MUJOCO_PY_MJPRO_PATH=$HOME/.mujoco/mujoco200/
+export MUJOCO_PY_MJKEY_PATH=$HOME/.mujoco/mujoco200/mjkey.txt
+```
